@@ -1856,3 +1856,187 @@ html, body {
     padding: 13px;
   }
 }
+
+
+/* Final card interaction and typography cleanup — 2026-11-04 */
+.portfolio-root .project-grid > .project-card {
+  position: relative;
+  isolation: isolate;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+.portfolio-root .project-grid > .project-card.is-tilting {
+  transition: border-color .22s ease, box-shadow .22s ease !important;
+}
+.portfolio-root .project-grid > .project-card.is-tilting > .project-art,
+.portfolio-root .project-grid > .project-card.is-tilting > .project-info,
+.portfolio-root .project-grid > .project-card:hover > .project-art,
+.portfolio-root .project-grid > .project-card:hover > .project-info {
+  /* Keep card copy on one flat plane; only the complete card tilts. */
+  transform: none !important;
+}
+.portfolio-root .project-grid > .project-card::before {
+  pointer-events: none;
+}
+
+/* Consistent spacing prevents tags, headings and copy from visually running together. */
+.portfolio-root .project-grid > .project-card > .project-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  height: auto;
+  gap: 0;
+  padding: clamp(17px, 1.8vw, 22px);
+}
+.portfolio-root .project-info .tag-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 8px;
+  row-gap: 7px;
+  width: 100%;
+  margin: 0 0 13px;
+  line-height: 1.45;
+}
+.portfolio-root .project-info .tag-row span {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.4;
+  letter-spacing: .055em;
+  padding: 5px 8px;
+}
+.portfolio-root .project-info h3 {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 10px;
+  font-size: clamp(18px, 1.55vw, 21px);
+  line-height: 1.32;
+  letter-spacing: -.025em;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.portfolio-root .project-info p {
+  display: block !important;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 15px;
+  overflow: visible !important;
+  line-clamp: unset;
+  -webkit-line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  font-size: 13px;
+  line-height: 1.72;
+  letter-spacing: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.portfolio-root .project-info .project-stack {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 8px;
+  row-gap: 8px;
+  width: 100%;
+  margin: 0 0 15px;
+}
+.portfolio-root .project-info .project-stack span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  white-space: nowrap;
+  line-height: 1.4;
+  padding: 5px 8px;
+}
+.portfolio-root .project-info .project-live-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 38px;
+  max-width: 100%;
+  margin-top: auto;
+  padding-top: 3px;
+  line-height: 1.45;
+  white-space: normal;
+}
+
+/* Bengali preview headings need more vertical breathing room than Latin display type. */
+.portfolio-root .market-site-body h4 {
+  font-family: "Noto Sans Bengali", "Hind Siliguri", "Bangla", system-ui, sans-serif !important;
+  font-size: clamp(18px, 1.9vw, 25px) !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+  margin: 10px 0 8px;
+  max-width: 72%;
+  overflow-wrap: anywhere;
+}
+.portfolio-root .market-site-body p {
+  font-family: "Noto Sans Bengali", "Hind Siliguri", "Bangla", system-ui, sans-serif;
+  font-size: clamp(8px, .72vw, 10px);
+  line-height: 1.65;
+  max-width: 70%;
+}
+.portfolio-root .faith-site-body h4 {
+  line-height: 1.12 !important;
+  letter-spacing: -.02em;
+  max-width: 64%;
+}
+.portfolio-root .faith-site-body p {
+  line-height: 1.65;
+  max-width: 62%;
+}
+.portfolio-root .faith-site-feature {
+  gap: clamp(5px, .7vw, 9px);
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+@media (max-width: 700px) {
+  .portfolio-root .project-grid > .project-card > .project-info {
+    padding: 17px 16px 18px;
+  }
+  .portfolio-root .project-info h3 {
+    font-size: clamp(19px, 5vw, 22px);
+    line-height: 1.3;
+  }
+  .portfolio-root .project-info p {
+    font-size: 14px;
+    line-height: 1.72;
+    margin-bottom: 16px;
+  }
+  .portfolio-root .project-info .tag-row span {
+    font-size: 9px;
+  }
+  .portfolio-root .market-site-body h4 {
+    font-size: clamp(20px, 6vw, 26px) !important;
+    max-width: 72%;
+    line-height: 1.32 !important;
+  }
+  .portfolio-root .market-site-body p {
+    font-size: 9px;
+    line-height: 1.65;
+  }
+}
+@media (max-width: 420px) {
+  .portfolio-root .project-info h3 {
+    font-size: 19px;
+  }
+  .portfolio-root .project-info p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .portfolio-root .market-site-body h4 {
+    max-width: 74%;
+    font-size: 20px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-root .project-grid > .project-card {
+    transition: border-color .22s ease, box-shadow .22s ease !important;
+  }
+}
