@@ -21,7 +21,7 @@ export default function HomePage() {
     if (!root) return undefined;
     let alive = true;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    const finePointer = window.matchMedia("(any-pointer: fine)").matches;
 
     // Climate Constellation: a lightweight canvas field that shifts with local time,
     // regional season and current weather, and gently responds to cursor movement.
@@ -450,7 +450,7 @@ export default function HomePage() {
 
     const tiltCards = [];
     const magneticButtons = [];
-    if (!reduceMotion) {
+    {
       root.querySelectorAll(".project-card").forEach((card) => {
         const tilt = {
           currentX: 0, currentY: 0, currentRoll: 0,
@@ -459,7 +459,7 @@ export default function HomePage() {
         };
         const animateTilt = () => {
           tilt.frame = 0;
-          const follow = tilt.inside ? 0.64 : 0.24;
+          const follow = tilt.inside ? (reduceMotion ? 0.38 : 0.64) : (reduceMotion ? 0.2 : 0.24);
           tilt.currentX += (tilt.targetX - tilt.currentX) * follow;
           tilt.currentY += (tilt.targetY - tilt.currentY) * follow;
           tilt.currentRoll += (tilt.targetRoll - tilt.currentRoll) * follow;
@@ -475,7 +475,7 @@ export default function HomePage() {
           card.style.setProperty("--card-tilt-y", `${tilt.currentY.toFixed(2)}deg`);
           card.style.setProperty(
             "transform",
-            `perspective(820px) rotateX(${tilt.currentY.toFixed(2)}deg) rotateY(${tilt.currentX.toFixed(2)}deg) rotateZ(${tilt.currentRoll.toFixed(2)}deg) translateY(${tilt.inside ? -3 : 0}px) scale(${tilt.inside ? 1.006 : 1})`,
+            `perspective(900px) rotateX(${tilt.currentY.toFixed(2)}deg) rotateY(${tilt.currentX.toFixed(2)}deg) rotateZ(${tilt.currentRoll.toFixed(2)}deg) translateY(${tilt.inside ? (reduceMotion ? -1 : -3) : 0}px) scale(${tilt.inside ? (reduceMotion ? 1.001 : 1.006) : 1})`,
             "important"
           );
           if (!settled) {
@@ -505,9 +505,10 @@ export default function HomePage() {
           const y = Math.max(-1, Math.min(1, (event.clientY - (rect.top + rect.height / 2)) / (rect.height / 2)));
           const isTouch = event.pointerType === "touch" || tilt.touchMode;
           // A restrained tilt feels premium and avoids overwhelming the card content.
-          tilt.targetX = x * (isTouch ? 4.5 : 8.5);
-          tilt.targetY = y * (isTouch ? -4.5 : -7.5);
-          tilt.targetRoll = x * (isTouch ? 0.25 : 0.6);
+          const motionScale = reduceMotion ? 0.38 : 1;
+          tilt.targetX = x * (isTouch ? 4.5 : 8.5) * motionScale;
+          tilt.targetY = y * (isTouch ? -4.5 : -7.5) * motionScale;
+          tilt.targetRoll = x * (isTouch ? 0.25 : 0.6) * motionScale;
           card.style.setProperty("--card-light-x", `${((x + 1) / 2) * 100}%`);
           card.style.setProperty("--card-light-y", `${((y + 1) / 2) * 100}%`);
           queueTilt();
@@ -564,7 +565,7 @@ export default function HomePage() {
         card.addEventListener("touchcancel", onTouchEnd, { passive: true });
         tiltCards.push([card, onMove, onLeave, stopTilt, onEnter, onTouchStart, onTouchMove, onTouchEnd]);
       });
-      if (finePointer) {
+      if (finePointer && !reduceMotion) {
         root.querySelectorAll(".button").forEach((button) => {
           const onMove = (event) => {
             const rect = button.getBoundingClientRect();
