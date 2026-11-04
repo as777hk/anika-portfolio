@@ -2040,3 +2040,28 @@ html, body {
     transition: border-color .22s ease, box-shadow .22s ease !important;
   }
 }
+
+/* Hero headline line breaks must remain structural, independent of motion preferences. */
+.portfolio-root .hero-copy h1 > .hero-line {
+  display: block !important;
+  width: fit-content;
+  max-width: 100%;
+  line-height: 1.02;
+}
+.portfolio-root .hero-copy h1 > .hero-line.hero-line-accent,
+.portfolio-root .hero-copy h1 > .hero-line.hero-line-accent > span {
+  color: var(--lime) !important;
+}
+@media (max-width: 650px) {
+  .portfolio-root .hero-copy h1 > .hero-line {
+    line-height: 1.04;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-root .hero-copy h1 > .hero-line {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
